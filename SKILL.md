@@ -414,4 +414,5 @@ map.Event.bind(longdo.EventName.Ready, () => {
 ---
 
 ## Supporting Files
-- [api-reference.md](api-reference.md) — Full API reference with all options
+- [api-reference.md](api-reference.md) — Full API reference: all constructor options, event names, layer constants
+- [services.md](services.md) — REST API services: search, geocoding, routing, traffic, TSP, span area
