@@ -343,6 +343,64 @@ map.Overlays.clear();
 
 ---
 
+## MapLibre Access via map.Renderer
+
+Longdo Map uses MapLibre GL JS as its rendering engine. Access the underlying MapLibre instance via `map.Renderer` to use MapLibre's full API directly.
+
+```javascript
+const mlMap = map.Renderer;   // MapLibre Map instance
+
+// Add GeoJSON source and layer
+mlMap.addSource('my-source', {
+  type: 'geojson',
+  data: { type: 'FeatureCollection', features: [] }
+});
+
+mlMap.addLayer({
+  id: 'my-layer',
+  type: 'fill',
+  source: 'my-source',
+  paint: { 'fill-color': '#088', 'fill-opacity': 0.6 }
+});
+
+// Layer events
+mlMap.on('click', 'my-layer', (e) => {
+  console.log(e.features[0]);
+});
+
+// Camera controls
+mlMap.flyTo({ center: [100.5, 13.7], zoom: 15 });
+mlMap.easeTo({ bearing: 45, pitch: 60 });
+
+// Data-driven paint expressions
+mlMap.setPaintProperty('my-layer', 'fill-color', [
+  'interpolate', ['linear'], ['get', 'value'],
+  0, '#00f', 100, '#f00'
+]);
+```
+
+### When to use map.Renderer
+- Custom vector tile layers (MVT)
+- Complex GeoJSON visualizations (heatmap, choropleth, extrusion)
+- 3D buildings and terrain
+- Data-driven styling with MapLibre expressions
+- Animations via `requestAnimationFrame`
+- MapLibre plugins (e.g. `maplibre-gl-draw`)
+
+### Notes
+- Always wait for `longdo.EventName.Ready` before accessing `map.Renderer`
+- Longdo `map.Overlays` and MapLibre layers via `map.Renderer` are independent systems — they coexist but have separate z-order stacks
+- Avoid source/layer IDs that conflict with Longdo Map's internal layers
+
+```javascript
+map.Event.bind(longdo.EventName.Ready, () => {
+  const mlMap = map.Renderer;
+  // safe to use MapLibre API here
+});
+```
+
+---
+
 ## Troubleshooting
 
 | Problem | Cause | Fix |
