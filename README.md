@@ -15,12 +15,12 @@ When active, Claude understands how to:
 
 ### Personal (all your projects)
 ```bash
-git clone https://github.com/YOUR_USERNAME/longdo-map-skill ~/.claude/skills/longdo-map
+git clone https://github.com/Champjiwrd/longdo-map-skill ~/.claude/skills/longdo-map
 ```
 
 ### Project-specific
 ```bash
-git clone https://github.com/YOUR_USERNAME/longdo-map-skill .claude/skills/longdo-map
+git clone https://github.com/Champjiwrd/longdo-map-skill .claude/skills/longdo-map
 ```
 
 That's it. Claude Code picks up skills automatically — no restart needed.
