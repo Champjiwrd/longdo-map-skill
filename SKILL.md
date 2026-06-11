@@ -146,6 +146,59 @@ map.Overlays.add(circle);
 
 ---
 
+## District Geometry (Administrative Boundaries)
+
+`longdo.Overlays.Object` loads administrative boundary polygons from Longdo's geometry service using a **geocode** string and layer type `'IG'`.
+
+```javascript
+const obj = new longdo.Overlays.Object(geocode, 'IG', options);
+map.Overlays.load(obj);
+```
+
+### Geocode patterns
+
+| Pattern | Meaning |
+|---------|---------|
+| `'10'` | Province — Bangkok (geocode = 10) |
+| `'2_'` | All provinces in Eastern region (geocode starts with 2) |
+| `'10__'` | All districts (เขต) in Bangkok (4-digit geocodes starting with 10) |
+| `'610604'` | Exact subdistrict (ตำบล) by full geocode |
+| `'610604;610607;610703'` | Multiple areas separated by `;` |
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `combine` | boolean | `false` | Merge all matched areas into a single object |
+| `simplify` | number | auto | Boundary resolution: `0.00005` (detailed) – `0.001` (coarse) |
+| `ignorefragment` | boolean | `false` | Skip small fragment polygons |
+
+### Examples
+
+```javascript
+// Bangkok province boundary (geocode 10)
+const bangkok = new longdo.Overlays.Object('10', 'IG');
+map.Overlays.load(bangkok);
+
+// All provinces in Eastern region (geocode starts with 2)
+const eastern = new longdo.Overlays.Object('2_', 'IG');
+map.Overlays.load(eastern);
+
+// All districts inside Bangkok (4-digit geocode starting with 10)
+const bkkDistricts = new longdo.Overlays.Object('10__', 'IG');
+map.Overlays.load(bkkDistricts);
+
+// Multiple subdistricts combined into one shape
+const combined = new longdo.Overlays.Object('610604;610607;610703;610704;610802', 'IG', {
+  combine: true,
+  simplify: 0.00005,
+  ignorefragment: false
+});
+map.Overlays.load(combined);
+```
+
+---
+
 ## Overlays API
 
 ```javascript
