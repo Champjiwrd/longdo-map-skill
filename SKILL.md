@@ -68,20 +68,41 @@ map.Overlays.add(marker);
 ```
 
 ### Popup (info window)
+
+**Pattern 1 — standard title/detail:**
 ```javascript
-const popup = new longdo.Popup(
-  { lon: 100.5018, lat: 13.7563 },
-  {
-    title: 'Title',
-    detail: 'Detail text',
-    html: '<b>Custom HTML</b>',
-    size: { width: 200, height: 100 },
-    closable: true
-  }
-);
+var popup = new longdo.Popup({ lon: 99, lat: 14 }, {
+  title: 'Popup',
+  detail: 'Simple popup'
+});
 map.Overlays.add(popup);
-marker.pop(true);   // show popup attached to marker
 ```
+
+**Pattern 2 — custom size, closable, dynamic content via loadDetail callback:**
+```javascript
+var popup = new longdo.Popup({ lon: 101, lat: 14 }, {
+  title: 'Popup',
+  detail: 'Popup detail...',
+  loadDetail: function(element) {
+    setTimeout(function() {
+      element.innerHTML = 'Content changed';
+    }, 1000);
+  },
+  size: { width: 200, height: 200 },
+  closable: false
+});
+map.Overlays.add(popup);
+```
+
+**Pattern 3 — fully custom HTML:**
+```javascript
+var popup = new longdo.Popup({ lon: 102, lat: 14 }, {
+  html: '<div style="background: #eeeeff;">popup</div>'
+});
+map.Overlays.add(popup);
+```
+
+Remove a popup: `map.Overlays.remove(popup);`
 
 ### Polyline (route/path)
 ```javascript
